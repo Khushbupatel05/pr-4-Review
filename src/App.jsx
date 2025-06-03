@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Reviewbox from './assets/Components/Reviewbox'
 
 const App = () => {
