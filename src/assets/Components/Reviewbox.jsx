@@ -121,8 +121,7 @@ const Reviewbox = () => {
             {allData.map((review, index) => (
               <div
                 key={index}
-                className="bg-[fff] p-5 rounded-3xl shadow-xl text-center border "
-              >
+                className="bg-[fff] p-5 rounded-3xl shadow-xl text-center border " >
 
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
                   Thank you, {review.name}!
