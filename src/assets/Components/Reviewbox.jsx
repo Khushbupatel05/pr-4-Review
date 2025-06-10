@@ -2,11 +2,7 @@ import { useState } from "react";
 import ReviewCard from "./ReviewCard";
 
 const Reviewbox = () => {
-  const [input, setInput] = useState({
-    name: "",
-    date: "",
-    message: "",
-    rate: "",
+  const [input, setInput] = useState({ name: "", date: "", message: "", rate: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -43,20 +39,28 @@ const Reviewbox = () => {
         updatedArr[editIndex] = input;
         setAllData(updatedArr);
         setIsUpdate(false);
+        setEditIndex(null);
       } else {
         setAllData([...allData, input]);
       }
-      setInput({
-        name: "",
-        message: "",
-        date: "",
-        rate: "",
+
+      setInput({ name: "", message: "", date: "", rate: "",
       });
     }
   };
 
+  const handleEdit = (idx) => {
+    const edit = allData[idx];
+    setInput({ name: edit.name, message: edit.message, date: edit.date, rate: edit.rate,
+    });
+    setEditIndex(idx);
+    setIsUpdate(true);
+  };
 
-  console.log(allData.length);
+  const handleDelete = (idx) => {
+    const filtered = allData.filter((_, index) => index !== idx);
+    setAllData(filtered);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#014872] to-[#D7EDE1] py-10 px-4 flex items-center justify-center">
@@ -72,42 +76,22 @@ const Reviewbox = () => {
 
           <div>
             <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
-            <input
-              type="date"
-              id="date"
-              value={input.date}
-              onChange={handleChange}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+            <input type="date" id="date" value={input.date} onChange={handleChange} className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
             {errors.date && <p className="text-red-600 text-sm mt-1">{errors.date}</p>}
           </div>
 
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-gray-700">Your Message</label>
-            <textarea
-              id="message"
-              value={input.message}
-              onChange={handleChange}
-              rows="3"
-              placeholder="Leave a review..."
-              className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+            <textarea id="message" value={input.message} onChange={handleChange} rows="3" placeholder="Leave a review..." className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
             {errors.message && <p className="text-red-600 text-sm mt-1">{errors.message}</p>}
           </div>
 
           <div>
             <label htmlFor="rate" className="block text-sm font-medium text-gray-700">Rating</label>
-            <select
-              id="rate"
-              value={input.rate}
-              onChange={handleChange}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
+            <select id="rate" value={input.rate} onChange={handleChange} className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
               <option value="">Select</option>
               {[1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
+                <option key={n} value={n}>{n}</option>
               ))}
             </select>
             {errors.rate && <p className="text-red-600 text-sm mt-1">{errors.rate}</p>}
@@ -118,13 +102,14 @@ const Reviewbox = () => {
           </button>
         </form>
       </div>
-      <div className="w-6/12 ms-5 space-y-6 h-[425px] overflow-y-auto">
-        <div className="row">
-          {allData.map((review, idx) => {
-            <div className="col-6">
-              <ReviewCard name={review.name} message={review.message} date={review.date} rate={review.rate} index={idx} key={idx} />
+
+      <div className="w-6/12 ms-5 space-y-6 h-[425px]  overflow-y-auto">
+        <div className="row ">
+          {allData.map((review, idx) => (
+            <div className="w-[84%] m-4" key={idx}>
+              <ReviewCard name={review.name} message={review.message} date={review.date} rate={review.rate} index={idx} handleEdit={handleEdit} handleDelete={handleDelete} />
             </div>
-          })}
+          ))}
         </div>
       </div>
     </div>
