@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ReviewCard from "./ReviewCard";
 
 const Reviewbox = () => {
   const [input, setInput] = useState({
@@ -54,51 +55,54 @@ const Reviewbox = () => {
     }
   };
 
-  const handleUpdate = (index) => {
-    setInput(allData[index]);
-    setEditIndex(index);
-    setIsUpdate(true);
-  };
 
-  const handleDelete = (index) => {
-    const filtered = allData.filter((_, i) => i !== index);
-    setAllData(filtered);
-  };
+  console.log(allData.length);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-pink-100 py-10 px-4">
-      <div className="container mx-auto px-4">
-        <form onSubmit={handleSubmit} className="max-w-xl mx-auto mt-10 space-y-6 bg-white p-8 rounded-3xl shadow-xl border border-gray-200" >
+    <div className="min-h-screen bg-gradient-to-br from-[#014872] to-[#D7EDE1] py-10 px-4 flex items-center justify-center">
+      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <h2 className="text-center text-2xl font-semibold text-gray-800">Give Your Review</h2>
+
           <div>
-            <label htmlFor="name" className="block text-sm font-bold text-gray-700"  > Your Name   </label>
-            <input type="text" id="name" value={input.name} onChange={handleChange}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Enter your name" />
-            {errors.name && (
-              <p className="text-red-600 text-sm mt-1">{errors.name}</p>
-            )}
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Your Name</label>
+            <input type="text" id="name" value={input.name} onChange={handleChange} className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Enter your name" />
+            {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
           </div>
 
           <div>
-            <label htmlFor="date" className="block text-sm font-bold text-gray-700" >  Date  </label>
-            <input type="date" id="date" value={input.date} onChange={handleChange} className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            {errors.date && (
-              <p className="text-red-600 text-sm mt-1">{errors.date}</p>
-            )}
+            <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
+            <input
+              type="date"
+              id="date"
+              value={input.date}
+              onChange={handleChange}
+              className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.date && <p className="text-red-600 text-sm mt-1">{errors.date}</p>}
           </div>
 
           <div>
-            <label  htmlFor="message"  className="block text-sm font-bold text-gray-700" >  Your Message
-            </label>
-            <textarea id="message" value={input.message} onChange={handleChange}  rows="4" className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Leave a review..." />
-            {errors.message && (
-              <p className="text-red-600 text-sm mt-1">{errors.message}</p>
-            )}
+            <label htmlFor="message" className="block text-sm font-medium text-gray-700">Your Message</label>
+            <textarea
+              id="message"
+              value={input.message}
+              onChange={handleChange}
+              rows="3"
+              placeholder="Leave a review..."
+              className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.message && <p className="text-red-600 text-sm mt-1">{errors.message}</p>}
           </div>
 
           <div>
-            <label htmlFor="rate" className="block text-sm font-bold text-gray-700"> Rating  </label>
-            <select id="rate" value={input.rate} onChange={handleChange} className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"  >
+            <label htmlFor="rate" className="block text-sm font-medium text-gray-700">Rating</label>
+            <select
+              id="rate"
+              value={input.rate}
+              onChange={handleChange}
+              className="mt-1 w-full p-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
               <option value="">Select</option>
               {[1, 2, 3, 4, 5].map((n) => (
                 <option key={n} value={n}>
@@ -106,42 +110,22 @@ const Reviewbox = () => {
                 </option>
               ))}
             </select>
-            {errors.rate && (
-              <p className="text-red-600 text-sm mt-1">{errors.rate}</p>
-            )}
+            {errors.rate && <p className="text-red-600 text-sm mt-1">{errors.rate}</p>}
           </div>
 
-          <button type="submit" className="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all" >
+          <button type="submit" className=" p-1 ps-3  pe-3  bg-cyan-700 ms-40 text-white font-semibold rounded  hover:bg-cyan-800 bg-cyan-700transition-all">
             Submit
           </button>
         </form>
-
-        <div className="max-w-2xl mx-auto mt-12">
-          <div className="h-[425px] overflow-y-auto ">
-            {allData.map((review, index) => (
-              <div
-                key={index}
-                className="bg-[fff] p-5 rounded-3xl shadow-xl text-center border " >
-
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                  Thank you, {review.name}!
-                </h2>
-                <p className="text-gray-600 text-sm mb-3">{review.message}</p>
-                <div className="text-xs text-gray-400 mb-2">{review.date}</div>
-                <div className="text-yellow-500 mt-1 text-lg text-center">{"⭐".repeat(Number(review.rate))}</div>
-                <div className="flex justify-center gap-6">
-                  <button
-                    onClick={() => handleUpdate(index)}className="text-blue-500 font-medium  text-sm  hover:underline">Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(index)}className="text-red-500 font-medium text-sm hover:underline"  > Delete
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+      </div>
+      <div className="w-6/12 ms-5 space-y-6 h-[425px] overflow-y-auto">
+        <div className="row">
+          {allData.map((review, idx) => {
+            <div className="col-6">
+              <ReviewCard name={review.name} message={review.message} date={review.date} rate={review.rate} index={idx} key={idx} />
+            </div>
+          })}
         </div>
-
       </div>
     </div>
   );
